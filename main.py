@@ -4,7 +4,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import numpy as np
-
+import matplotlib.pyplot as plt
 df = pd.read_csv("smoking.csv") # load our dataset
 
 # some data cleaning
@@ -38,6 +38,27 @@ principal_components = Vt[:number_of_features].T # rows of V^T will be the princ
 X_train_pca = X_train @ principal_components
 X_test_pca  = X_test  @ principal_components
 
+
+# Plot for the explained variance by Ivan
+###################################
+#Explained variance plot
+n_samples = X_train.shape[0]
+
+# Compute explained variance and ratio
+explained_variance = (S**2) / (n_samples - 1)
+explained_variance_ratio = explained_variance / explained_variance.sum()
+
+plt.figure(figsize=(6,4))
+plt.bar(range(1, 11), explained_variance_ratio[:10])
+plt.xlabel("Principal Component")
+plt.ylabel("Explained Variance Ratio")
+plt.title("Explained Variance Ratio of First 10 Principal Components")
+for i, v in enumerate(explained_variance_ratio[:10]):
+    plt.text(i + 1, v, f"{v:.3f}", ha='center', va='bottom')
+plt.tight_layout()
+plt.show()
+
+##############################################
 
 """ 
 Now our data is prepared for regression/model prediction by Dan
